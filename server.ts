@@ -1,8 +1,6 @@
-import express from "express";
-import handleGet from "./handle-get";
+import Fastify from "fastify";
+const app = Fastify();
 
-const app = express();
+app.use(animal);
 
-console.log("Running bichinhos");
-app.get("/", handleGet);
 app.listen("3000");
