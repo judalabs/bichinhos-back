@@ -6,34 +6,50 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id    String     @id @default(uuid())
-  name  String
-  login  String 
-  password String
+  id        String   @id @default(uuid())
+  name      String
+  login     String
+  password  String
   createdAt DateTime @default(now())
+  Animal    Animal[]
 }
 
 model Animal {
-  id String @id @default(uuid())
-  idAnimal String 
-  type String
-  name String
-  idade String?
-  porte String
-  sexo String
-  responsavel String?
-  adotado Boolean
-  foto String?
-  dtInclusao String
-  localizacao String
-  raca String
-  descricao String
-  isAdotado String
-  cuidadosVet String
-  caracteristicas String
+  id              String     @id @default(uuid())
+  type            TipoAnimal
+  name            String?
+  idade           Decimal?
+  porte           Porte
+  sexo            Sexo
+  responsavel     User?      @relation(fields: [userId], references: [id])
+  adotado         Boolean
+  foto            String?
+  dtInclusao      DateTime   @default(now())
+  localizacao     String?
+  raca            String?
+  descricao       String?
+  cuidadosVet     String?
+  caracteristicas String?
+  userId          String
+}
+
+enum Porte {
+  PEQUENO
+  MEDIO
+  GRANDE
+}
+
+enum Sexo {
+  MASCULINO
+  FEMININO
+}
+
+enum TipoAnimal {
+  CACHORRO
+  GATO
 }
